@@ -10,9 +10,9 @@ import SpriteExtractor from './SpriteExtractor'
 
 export default function Terrain(props) {
 
-    const { sheetPosition } = props
+    const { sheetPosition} = props
 
     return (
-        <SpriteExtractor sheet={grasslandSheet} position={sheetPosition} />
+        <SpriteExtractor sheet={grasslandSheet} position={sheetPosition}/>
     )
 }

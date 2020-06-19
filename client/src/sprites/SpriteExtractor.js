@@ -6,13 +6,12 @@ export default function SpriteExtractor(props) {
 
     const { unitSize, position, sheet } = props
 
-    const [x, y] = position
 
     return (
         <Container
             unitSize={unitSize || 64}
-            x={x}
-            y={y}
+            x={position[0]}
+            y={position[1]}
             sheet={sheet}
         />
     )
