@@ -1,0 +1,28 @@
+import React from 'react'
+
+import styled from 'styled-components'
+
+export default function SpriteExtractor(props) {
+
+    const { unitSize, position, sheet } = props
+
+    const [x, y] = position
+
+    return (
+        <Container
+            unitSize={unitSize || 64}
+            x={x}
+            y={y}
+            sheet={sheet}
+        />
+    )
+}
+
+const Container = styled.div`
+
+  background-image: url(${props => props.sheet});
+  width: ${props => props.unitSize}px;
+  height: ${props => props.unitSize}px;
+  background-position: -${props => props.x * props.unitSize}px -${props => props.y * props.unitSize}px; 
+
+`
