@@ -6,7 +6,6 @@ export default function SpriteExtractor(props) {
 
     const { unitSize, position, sheet } = props
 
-
     return (
         <Container
             unitSize={unitSize || 64}

@@ -2,14 +2,11 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-import Terrain from '../sprites/Terrain'
+import Terrain, { terrainChoices, biomes } from '../sprites/Terrain'
+
 import MapCreateTile from './mapCreate/MapCreateTile'
 
 
-const options = [[1, 1], [9, 10], [10, 10], [11, 10], [13, 10], [14, 10], [9, 11], [11, 11], [12, 11], [13, 11],
-    [14, 11], [15, 11], [9, 12], [10, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [9, 13], [10, 13], [11, 13], [12, 13],
-    [13, 13], [14, 13], [0, 1], [1, 11], [2, 11], [3, 11], [4, 11], [5, 11], [6, 11], [7, 11], [8, 11], [1, 12], [2, 12], [3, 12],
-    [4, 12], [5, 12], [6, 12], [8, 12], [0, 13], [1, 13], [2, 13], [3, 13], [6, 13], [7, 13], [8, 13]]
 
 const rowIndicies = [...Array(30).keys()]
 
@@ -17,7 +14,7 @@ const columnIndicies = [...Array(30).keys()]
 
 const initialTiles = rowIndicies.reduce((acc, row) => {
     return columnIndicies.reduce( (acc2, column) => {
-        acc2[`${column} ${row}`] = [0, 1]
+        acc2[`${column} ${row}`] = {sheetPosition: [0, 1], biome: "grassland"}
         return acc2
     }, acc)
 }, {})
@@ -27,54 +24,53 @@ export default class MapCreate extends React.Component {
 
     state = {
         tiles: initialTiles,
-        inputTile: options[0],
+        inputTile: {sheetPosition: terrainChoices[0], biome: biomes[0]},
         clicking: false
     }
 
-    updateTile = (location, tile) => {
+    updateTile = location => {
         const updatedTiles = {...this.state.tiles}
-        updatedTiles[location] = tile
+        updatedTiles[location] = this.state.inputTile
         this.setState({tiles: updatedTiles})
     }
 
-    clickUpdate = (location, tile) => () => {
+    clickUpdate = location => () => {
         this.setState({clicking: true})
-        this.updateTile(location, tile)
+        this.updateTile(location)
     }
 
-    enterUpdate = (location, tile) => () => {
+    enterUpdate = location => () => {
         if (this.state.clicking) {
-            this.updateTile(location, tile)
+            this.updateTile(location)
         }
     }
 
     render(){
-        const { tiles, inputTile } = this.state
         return (
             <Container onMouseUp={()=>this.setState({clicking: false})}>
                 <MapFrame>
                     <MapGrid>
-                        {Object.keys(tiles).map(tileKey => (
+                        {Object.keys(this.state.tiles).map(mapPosition => (
                             <MapCreateTile
-                                key={tileKey}
-                                tileKey={tileKey}
-                                tile={tiles[tileKey]}
-                                handleClick={this.clickUpdate(tileKey, inputTile)}
-                                handleEnter={this.enterUpdate(tileKey, inputTile)}
+                                key={mapPosition}
+                                mapPosition={mapPosition}
+                                tile={this.state.tiles[mapPosition]}
+                                handleClick={this.clickUpdate(mapPosition)}
+                                handleEnter={this.enterUpdate(mapPosition)}
                             />
                         ))}
                     </MapGrid>
                 </MapFrame>
                 <InterfaceFrame>
                     <SelectedTile>
-                    <Terrain sheetPosition={inputTile}/>
+                        <Terrain sheetPosition={this.state.inputTile.sheetPosition} biome={this.state.inputTile.biome} />
                     </SelectedTile>
                     <SelectableTiles >
-                        {options.map(position => (
-                            <div key={position} onClick={()=>this.setState({inputTile: position})}>
-                                <Terrain sheetPosition={position} />
+                        {biomes.flatMap(biome => terrainChoices.map(sheetPosition => (
+                            <div key={`${sheetPosition} ${biome}`} onClick={()=>this.setState({inputTile: { sheetPosition, biome }})}>
+                                <Terrain sheetPosition={sheetPosition} biome={biome} />
                             </div>
-                        ))}
+                        )))}
                     </SelectableTiles>
                 </InterfaceFrame>
             </Container>
@@ -100,7 +96,6 @@ const MapGrid = styled.div`
     display: grid;
     
 `
-
 
 const InterfaceFrame = styled.div`
     
