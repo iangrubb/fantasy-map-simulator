@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import styled from 'styled-components'
 
@@ -13,14 +14,15 @@ const rowIndicies = [...Array(30).keys()]
 const columnIndicies = [...Array(30).keys()]
 
 const initialTiles = rowIndicies.reduce((acc, row) => {
-    return columnIndicies.reduce( (acc2, column) => {
+    return columnIndicies.reduce((acc2, column) => {
         acc2[`${column} ${row}`] = {sheetPosition: [0, 1], biome: "grassland"}
         return acc2
     }, acc)
 }, {})
 
+const msp = () => state => ({globalState: state})
 
-export default class MapCreate extends React.Component {
+class MapCreate extends React.Component {
 
     state = {
         tiles: initialTiles,
@@ -78,6 +80,8 @@ export default class MapCreate extends React.Component {
     }
 }
 
+export default connect(msp, null)(MapCreate)
+
 const Container = styled.div`
     width: 100%;
     height: 100%;
@@ -94,7 +98,9 @@ const MapFrame = styled.div`
 
 const MapGrid = styled.div`
     display: grid;
-    
+
+    width: fit-content;
+    padding: 16px;
 `
 
 const InterfaceFrame = styled.div`
@@ -148,4 +154,3 @@ const SelectedTile = styled.div`
     justify-content: center;
     align-items: center;
 `
-

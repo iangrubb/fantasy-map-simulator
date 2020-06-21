@@ -3,11 +3,13 @@ import React from 'react';
 import styled from 'styled-components'
 
 import MapCreate from './containers/MapCreate'
+import Map from './map'
 
 function App() {
   return (
     <Container>
-      <MapCreate />
+      {/* <MapCreate /> */}
+      <Map />
     </Container>
   );
 }
