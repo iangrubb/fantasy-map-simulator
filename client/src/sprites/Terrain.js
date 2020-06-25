@@ -37,9 +37,9 @@ export const biomes = ["grassland", "dirt", "sand", "ice", "lava", "marsh"]
 
 export default function Terrain(props) {
 
-    const { sheetPosition, biome } = props
+    const { sheetPosition, biome, className, unitSize } = props
 
     return (
-        <SpriteExtractor sheet={chooseSheet(biome)} position={sheetPosition}/>
+        <SpriteExtractor className={className} sheet={chooseSheet(biome)} position={sheetPosition}/>
     )
 }

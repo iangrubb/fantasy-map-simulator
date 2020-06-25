@@ -4,10 +4,11 @@ import styled from 'styled-components'
 
 export default function SpriteExtractor(props) {
 
-    const { unitSize, position, sheet } = props
+    const { unitSize, position, sheet, className } = props
 
     return (
         <Container
+            className={className}
             unitSize={unitSize || 64}
             x={position[0]}
             y={position[1]}
