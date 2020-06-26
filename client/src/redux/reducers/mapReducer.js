@@ -18,7 +18,18 @@ const initialState = {
 }
 
 const mapReducer = (state = initialState.mapData, action) => {
+    
     switch(action.type) {
+        case "SET_TERRAIN_LEVEL":
+            return state.map(point => {
+                const {location, level} = action.payload
+                const {x, y} = location
+                if (point.location.x === x && point.location.y === y) {
+                    return {...point, location: {...point.location}, terrainLevel: level}
+                } else {
+                    return {...point, location: {...point.location}}
+                }
+            })
         default:
             return state
     }

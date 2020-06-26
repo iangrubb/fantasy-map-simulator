@@ -7,29 +7,25 @@ import MapPoint from './mapComponents/MapPoint'
 import MapTerrain from './mapComponents/MapTerrain'
 
 
-const msp = () => store => ({points: store.mapData})
-
 function Map(props) {
 
-    const { points } = props
-
-    const width = 10
-    const height = 10
-
-    // const points = [...Array((height * 2) + 1).keys()].flatMap( y => [...Array((width * 2) + 1).keys()].map( x => ({x, y})) )
+    const width = 25
+    const height = 25
+    
+    const points = [...Array(height).keys()].flatMap( y => [...Array(width).keys()].map( x => ({x, y})))
     // const tileLocations = points.filter( point => point.x % 2 === 1 && point.y % 2 === 1)
 
     return (
         <Container>
             <MapField width={width} height={height}>
-                {points.map( point => <MapTerrain key={`${point.location.x} ${point.location.y}`} location={point.location} />)}
+                {points.map( point => <MapTerrain key={`${point.x} ${point.y}`} location={point} />)}
                 {/* {props.points.map( point => <MapPoint key={`${point.location.x} ${point.location.y}`} point={point.location} /> )} */}
             </MapField>
         </Container>
     )
 }
 
-export default connect(msp, null)(Map)
+export default Map
 
 const Container = styled.div`
     width: 100%;
