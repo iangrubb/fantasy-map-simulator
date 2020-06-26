@@ -34,11 +34,14 @@ export default connect(msp, null)(Map)
 const Container = styled.div`
     width: 100%;
     height: 100%;
+   
 `
 
 const MapField = styled.div`
     width: ${props => props.width * 64}px;
     height: ${props => props.height * 64}px;
-    padding: 8px;
+
+    
+    
     position: relative;
 `
